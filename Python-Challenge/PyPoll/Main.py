@@ -51,14 +51,12 @@ print ('Li: ', Lipercent, int(Li))
 print ('OTooly', OTooleypercent, int(OTooley))
 
 print('----------------')
-#Create an indicies with the scores of the canidates to compare who got the most votes 
-def winner(csv_reader):
-    for 
+
 print('Winner: ', winner)
 print('----------------')
 
 
 
-
+#did not finish and asked for extension
 
     
