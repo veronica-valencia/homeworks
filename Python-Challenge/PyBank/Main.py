@@ -16,88 +16,43 @@ with open (file_csv) as csvfile:
     #print Title and dashed Line in txt file
     print('Financial Analysis')
     print('-----------------------------------------------')
-    #assign a unique integer to month string values 
-   
-    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    num_months = {} 
-    for mon in months:
-        months_number=1
-        num_months[mon]= months_number
-        months_number += 1
-
-    earliest_timestamp = 0 
-    latest_timestamp = 0
-    #reads each row in the csv file and splits the first column
-
-    # this will separate the month and year
+    #find total months in data 
+    total_months= 0
+    revenue = []
+    first_row = next(csv_reader)
+    revenue.append(first_row[1])
+    previous_net = first_row[1] 
+    net_changes = {}
+    greatest_profit = 0
+    smallest_profit = 0
+    
     for row in csv_reader:
-        date, profit = row
-        month, year = date.split("-")
-    #month is an int already because of month_to_indicies so this will convert year to int too
-        year = int(year)
-    #Get timestamp for each row in date column to compare 
-        timestamp = year *12 + num_months[month]
+        date,profit = row
+        profit = int(profit)
+        total_months +=1
+        revenue.append(profit)
         
-        #determine the earliest and latest timestamp
-        if earliest_timestamp == 0:
-            earliest_timestamp = timestamp
-
-                #cahnge the earliest timestamp to the current 
-                #timestamp or leave the current 
-
-            earliest_timestamp = min(earliest_timestamp,timestamp)
-            latest_timestamp = max(latest_timestamp,timestamp) 
-                #once you find earliest and latest subtract latest from earliest 
-                #to find month lapse and add 1 to count for the last month of data
-            time = latest_timestamp - earliest_timestamp + 1 
-    print ('Total Months:' , time)
-
-    #find total revenue across time
-    def total_revenue(csv_reader):
-        #sum the profit column to find the total revenue
-        revenue = sum(profit for _, profit in csv_reader)
-        print ('Total: ', '$',revenue )
-
-    def average_revenue(csv_reader):
-        #average the profit column and divide by time 
-        revenue = []
-        for row in csvreader:
-            date,profit = row
-            revenue.append(profit)
-        #average will be revenue divided by 85, number of months with revenue
-        average = revenue/ 85 
-    print ('Average change:', average)
-
-    #Find the greatest and smallest profit change
-    def profit_change(csv_reader):
-        greatest_profit, greatest_profit_timestamp = None, None
-        smallest_profit, smallest_profit_timestamp = None, None
-
-        #read each row in the csv file to find the total number of rows 
-        csv_contents = [row for row in csv_reader]
-
-        #loop though the rows to find difference in profits from month to month
-        for index in range(len(csv.contents)-1):
-            #compare current row to the one following to find difference in profits
-            current_date, current_profit = csv_contents[index]
-            next_date, next_profit = csv_contents[index+1]
-            
-            #find difference in profit between both months
-            profit_difference = int(next_profit) - int(current_profit)
+        #find difference in profit between both months
+        profit_difference = profit - int(previous_net)
 
         #compare to find greatest and smallest profit
-            if greatest_profit is None or greatest_profit < profit_difference:
-                greatest_profit = profit_difference 
-                greatest_profit_timestamp = next_date
-            if smallest_profit is None or smallest_profit > profit_difference:
-                smallest_profit = profit_difference
-                smallest_profit_timestamp = next_date
+        if greatest_profit  < profit_difference:
+            greatest_profit = profit_difference 
+            net_changes[date] = greatest_profit
+        if smallest_profit  > profit_difference:
+            smallest_profit = profit_difference
+            net_changes[date]= smallest_profit
 
+    revenue_sum = sum(revenue) 
+    average= revenue_sum/total_months
+    print('Total Months:',total_months)
+    print('Total: $ {}'.format(str(revenue_sum)))
+    print(f'Average Change:{average} ')
     print('Greatest Increase in Profits: {} {}'.format(greatest_profit_timestamp, greatest_profit))
     print('Greatest Decrease in Profits: {} {}'.format(smallest_profit_timestamp, smallest_profit))
 
 
-    #did not finish and asked for extension
+    
 
 
   

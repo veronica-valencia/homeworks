@@ -14,7 +14,9 @@ if __name__ == "__main__":
 
 #votes is equal to the number of rows in file minus 1 for header
 data= list(csv_reader)
-votes = len(data)
+votes = 0
+for row in csv_reader:
+    votes +=1
 
 print('Election Results')
 print('----------------')
@@ -51,12 +53,15 @@ print ('Li: ', Lipercent, int(Li))
 print ('OTooly', OTooleypercent, int(OTooley))
 
 print('----------------')
-
+winner = []
+canidate_percentages= [Khanpercent,Correypercent,Lipercent,OTooleypercent]
+for canidate in caniddate_percent():
+    
 print('Winner: ', winner)
 print('----------------')
 
 
 
-#did not finish and asked for extension
+
 
     
